@@ -1,5 +1,54 @@
-use std::env::args;
 use gumdrop::Options;
+use std::ascii::AsciiExt;
+use std::fmt;
+use std::env::args;
+use std::str::FromStr;
+
+#[derive(Debug)]
+pub enum Align {
+    Left,
+    Center,
+    Right,
+}
+
+#[derive(Debug)]
+pub struct AlignParseError(String);
+
+impl Align {
+    pub fn code(&self) -> &'static str {
+        match *self {
+            Align::Left => "l",
+            Align::Center => "c",
+            Align::Right => "r",
+        }
+    }
+}
+
+impl FromStr for Align {
+    type Err = AlignParseError;
+
+    fn from_str(value: &str) -> Result<Self, Self::Err> {
+        if value.eq_ignore_ascii_case("left") {
+            Ok(Align::Left)
+        } else if value.eq_ignore_ascii_case("center") {
+            Ok(Align::Center)
+        } else if value.eq_ignore_ascii_case("right") {
+            Ok(Align::Right)
+        } else {
+            Err(AlignParseError(value.into()))
+        }
+    }
+}
+
+impl fmt::Display for AlignParseError {
+    fn fmt(&self, fmt: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+        write!(
+            fmt,
+            "Invalid align '{}'. Should be one of 'left', 'center', or 'right'",
+            self.0
+        )
+    }
+}
 
 #[derive(Debug, Options)]
 pub struct AppOptions {
@@ -8,6 +57,9 @@ pub struct AppOptions {
 
     #[options(help = "screen where data is shown")]
     pub screen: Option<usize>,
+
+    #[options(help = "text align (left, center, right)")]
+    pub align: Align,
 
     #[options(help = "interval to compute updates, in seconds", meta = "SECS")]
     pub update_interval: u64,
@@ -53,6 +105,7 @@ impl Default for AppOptions {
         AppOptions {
             help: false,
             screen: None,
+            align: Align::Right,
             update_interval: 5,
             mountpoints: vec![],
             disk_usage_warn_threshold: 10.0,

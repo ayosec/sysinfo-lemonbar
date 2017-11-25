@@ -32,6 +32,7 @@ impl<'a> Line<'a> {
         if let Some(scr) = self.options.screen {
             write!(&mut self.buffer_line, "%{{S{}}}", scr)?;
         }
+        write!(&mut self.buffer_line, "%{{{}}}", self.options.align.code())?;
         self.buffer_line.push_str(SEP);
         Ok(())
     }
