@@ -3,6 +3,7 @@ extern crate gumdrop;
 extern crate gumdrop_derive;
 extern crate libc;
 
+mod filesystem;
 mod hwmon;
 mod info;
 mod options;
@@ -17,5 +18,7 @@ fn main() {
     println!("{:#?}", info::load());
 
     println!("{:#?}", hwmon::load_core_temp());
+
+    println!("{:#?}", filesystem::get_info(&opts.mountpoints[..]));
 
 }

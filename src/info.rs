@@ -4,7 +4,7 @@ use std::mem;
 
 const SI_LOAD: f64 = (1 << SI_LOAD_SHIFT) as f64;
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct SystemInfo {
     pub uptime: Duration,
     pub load_1m: f64,
@@ -20,7 +20,9 @@ pub fn load() -> SystemInfo {
     let mut si;
     unsafe {
         si = mem::zeroed();
-        sysinfo(&mut si);
+        if sysinfo(&mut si) == -1 {
+            return SystemInfo::default();
+        }
     }
 
     SystemInfo {

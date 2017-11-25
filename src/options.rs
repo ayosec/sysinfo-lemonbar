@@ -4,17 +4,17 @@ use gumdrop::Options;
 #[derive(Debug, Default, Options)]
 pub struct AppOptions {
     #[options(help = "print help message")]
-    help: bool,
+    pub help: bool,
 
     #[options(help = "screen where data is shown")]
-    screen: Option<usize>,
+    pub screen: Option<usize>,
 
     #[options(help = "interval to compute updates, in seconds", meta = "SECS")]
-    update_interval: Option<usize>,
+    pub update_interval: Option<usize>,
 
     // A `Vec` field will accumulate all values received from the command line.
     #[options(help = "mountpoint to show disk space usage", meta = "PATH")]
-    mountpoints: Vec<String>,
+    pub mountpoints: Vec<String>,
 }
 
 pub fn parse() -> Option<AppOptions> {
