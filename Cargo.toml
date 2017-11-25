@@ -1,5 +1,5 @@
 [package]
-name = "info-bar-x11"
+name = "sysinfo-lemonbar"
 version = "0.1.0"
 authors = ["app"]
 
