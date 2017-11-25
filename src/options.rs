@@ -1,7 +1,7 @@
 use std::env::args;
 use gumdrop::Options;
 
-#[derive(Debug, Default, Options)]
+#[derive(Debug, Options)]
 pub struct AppOptions {
     #[options(help = "print help message")]
     pub help: bool,
@@ -10,11 +10,53 @@ pub struct AppOptions {
     pub screen: Option<usize>,
 
     #[options(help = "interval to compute updates, in seconds", meta = "SECS")]
-    pub update_interval: Option<usize>,
+    pub update_interval: usize,
 
-    // A `Vec` field will accumulate all values received from the command line.
     #[options(help = "mountpoint to show disk space usage", meta = "PATH")]
     pub mountpoints: Vec<String>,
+
+    #[options(help = "threshold (in %) to show the disk usage in WARN state", meta = "VALUE")]
+    pub disk_usage_warn_threshold: f64,
+
+    #[options(help = "threshold (in %) to show the disk usage in ALERT state", meta = "VALUE")]
+    pub disk_usage_alert_threshold: f64,
+
+    #[options(help = "threshold (in ºC) to show the CPU temperature in WARN state", meta = "VALUE")]
+    pub cpu_temp_warn_threshold: f64,
+
+    #[options(help = "threshold (in ºC) to show the CPU temperature in ALERT state", meta = "VALUE")]
+    pub cpu_temp_alert_threshold: f64,
+
+    #[options(help = "threshold (in Mib) to show the free memory in WARN state", meta = "VALUE")]
+    pub memory_free_warn_threshold: f64,
+
+    #[options(help = "threshold (in Mib) to show the free memory in ALERT state", meta = "VALUE")]
+    pub memory_free_alert_threshold: f64,
+
+    #[options(help = "color for the text in WARN state", meta = "FG/BG")]
+    pub color_warn: String,
+
+    #[options(help = "color for the text in ALERT state", meta = "FG/BG")]
+    pub color_alert: String,
+}
+
+impl Default for AppOptions {
+    fn default() -> AppOptions {
+        AppOptions {
+            help: false,
+            screen: None,
+            update_interval: 5,
+            mountpoints: vec![],
+            disk_usage_warn_threshold: 10.0,
+            disk_usage_alert_threshold: 4.0,
+            cpu_temp_warn_threshold: 60.0,
+            cpu_temp_alert_threshold: 70.0,
+            memory_free_warn_threshold: 512.0,
+            memory_free_alert_threshold: 128.0,
+            color_warn: String::from("#000/#fa7"),
+            color_alert: String::from("#fff/#700"),
+        }
+    }
 }
 
 pub fn parse() -> Option<AppOptions> {
