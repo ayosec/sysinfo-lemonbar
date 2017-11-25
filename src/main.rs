@@ -1,9 +1,11 @@
-extern crate libc;
 extern crate gumdrop;
-#[macro_use] extern crate gumdrop_derive;
+#[macro_use]
+extern crate gumdrop_derive;
+extern crate libc;
 
-mod options;
+mod hwmon;
 mod info;
+mod options;
 
 fn main() {
     let opts = match options::parse() {
@@ -13,5 +15,7 @@ fn main() {
 
     println!("{:#?}", opts);
     println!("{:#?}", info::load());
+
+    println!("{:#?}", hwmon::load_core_temp());
 
 }
