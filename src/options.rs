@@ -6,8 +6,8 @@ pub struct AppOptions {
     #[options(help = "print help message")]
     help: bool,
 
-    #[options(help = "monitor where data is shown")]
-    monitor: Option<usize>,
+    #[options(help = "screen where data is shown")]
+    screen: Option<usize>,
 
     #[options(help = "interval to compute updates, in seconds", meta = "SECS")]
     update_interval: Option<usize>,
