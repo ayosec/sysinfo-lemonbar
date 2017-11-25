@@ -10,7 +10,7 @@ pub struct AppOptions {
     pub screen: Option<usize>,
 
     #[options(help = "interval to compute updates, in seconds", meta = "SECS")]
-    pub update_interval: usize,
+    pub update_interval: u64,
 
     #[options(help = "mountpoint to show disk space usage", meta = "PATH")]
     pub mountpoints: Vec<String>,
@@ -21,10 +21,12 @@ pub struct AppOptions {
     #[options(help = "threshold (in %) to show the disk usage in ALERT state", meta = "VALUE")]
     pub disk_usage_alert_threshold: f64,
 
-    #[options(help = "threshold (in ºC) to show the CPU temperature in WARN state", meta = "VALUE")]
+    #[options(help = "threshold (in ºC) to show the CPU temperature in WARN state",
+              meta = "VALUE")]
     pub cpu_temp_warn_threshold: f64,
 
-    #[options(help = "threshold (in ºC) to show the CPU temperature in ALERT state", meta = "VALUE")]
+    #[options(help = "threshold (in ºC) to show the CPU temperature in ALERT state",
+              meta = "VALUE")]
     pub cpu_temp_alert_threshold: f64,
 
     #[options(help = "threshold (in Mib) to show the free memory in WARN state", meta = "VALUE")]
@@ -32,6 +34,12 @@ pub struct AppOptions {
 
     #[options(help = "threshold (in Mib) to show the free memory in ALERT state", meta = "VALUE")]
     pub memory_free_alert_threshold: f64,
+
+    #[options(help = "threshold to show the load average in WARN state", meta = "VALUE")]
+    pub loadavg_warn_threshold: f64,
+
+    #[options(help = "threshold to show the load average in ALERT state", meta = "VALUE")]
+    pub loadavg_alert_threshold: f64,
 
     #[options(help = "color for the text in WARN state", meta = "FG/BG")]
     pub color_warn: String,
@@ -48,11 +56,13 @@ impl Default for AppOptions {
             update_interval: 5,
             mountpoints: vec![],
             disk_usage_warn_threshold: 10.0,
-            disk_usage_alert_threshold: 4.0,
+            disk_usage_alert_threshold: 5.0,
             cpu_temp_warn_threshold: 60.0,
             cpu_temp_alert_threshold: 70.0,
             memory_free_warn_threshold: 512.0,
             memory_free_alert_threshold: 128.0,
+            loadavg_warn_threshold: 1.0,
+            loadavg_alert_threshold: 1.0,
             color_warn: String::from("#000/#fa7"),
             color_alert: String::from("#fff/#700"),
         }

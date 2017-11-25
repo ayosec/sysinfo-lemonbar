@@ -5,7 +5,7 @@ use std::io::{self, Read};
 
 #[derive(Debug)]
 pub struct CoreTemp {
-    pub input: i64,
+    pub input: f64,
     pub label: String,
 }
 
@@ -43,7 +43,7 @@ fn load_temp<T: AsRef<Path>>(path: T, num: usize) -> Result<CoreTemp, Box<Error>
     let input = path.as_ref().join(format!("temp{}_input", num));
     let label = path.as_ref().join(format!("temp{}_label", num));
     Ok(CoreTemp {
-        input: read_file(input)?.trim().parse()?,
+        input: read_file(input)?.trim().parse::<f64>()? / 1000.0,
         label: read_file(label)?.trim().into(),
     })
 }

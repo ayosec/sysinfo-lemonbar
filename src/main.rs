@@ -6,6 +6,7 @@ extern crate libc;
 mod filesystem;
 mod hwmon;
 mod info;
+mod main_loop;
 mod options;
 
 fn main() {
@@ -14,11 +15,5 @@ fn main() {
         Some(o) => o,
     };
 
-    println!("{:#?}", opts);
-    println!("{:#?}", info::load());
-
-    println!("{:#?}", hwmon::load_core_temp());
-
-    println!("{:#?}", filesystem::get_info(&opts.mountpoints[..]));
-
+    main_loop::run(opts).expect("run main loop");
 }

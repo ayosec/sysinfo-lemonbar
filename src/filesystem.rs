@@ -5,12 +5,12 @@ use std::ffi::CString;
 
 #[derive(Debug)]
 pub struct FileSysteUsage<'a> {
-    path: &'a str,
-    block_size: u64,
-    block_free: u64,
+    pub path: &'a str,
+    pub block_size: u64,
+    pub block_free: u64,
 }
 
-pub fn get_info<'a, S: AsRef<str>>(paths: &'a[S]) -> Vec<FileSysteUsage<'a>> {
+pub fn get_info<'a, S: AsRef<str>>(paths: &'a [S]) -> Vec<FileSysteUsage<'a>> {
     paths
         .iter()
         .map(|p| read_fs(p.as_ref()))
@@ -27,11 +27,9 @@ fn read_fs<'a>(path: &'a str) -> io::Result<FileSysteUsage> {
             return Err(io::Error::last_os_error());
         }
     }
-    Ok(
-        FileSysteUsage {
-            path: path,
-            block_size: stat.f_blocks,
-            block_free: stat.f_bavail,
-        }
-    )
+    Ok(FileSysteUsage {
+        path: path,
+        block_size: stat.f_blocks,
+        block_free: stat.f_bavail,
+    })
 }
