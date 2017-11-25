@@ -62,7 +62,7 @@ impl Default for AppOptions {
             memory_free_warn_threshold: 512.0,
             memory_free_alert_threshold: 128.0,
             loadavg_warn_threshold: 1.0,
-            loadavg_alert_threshold: 1.0,
+            loadavg_alert_threshold: 2.0,
             color_warn: String::from("#000/#fa7"),
             color_alert: String::from("#fff/#700"),
         }
