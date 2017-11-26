@@ -71,10 +71,10 @@ pub fn run(options: AppOptions) -> Result<(), Box<Error>> {
         // Memory
 
         let sysinfo = info::load();
-        let memfree = to_mib(sysinfo.memory_free);
+        let memfree = to_mib(sysinfo.memory_available);
 
         line.append(
-            format!("RAM Free: {} M", memfree as u64),
+            format!("RAM Avail.: {} M", memfree as u64),
             memfree < options.memory_free_warn_threshold,
             memfree < options.memory_free_alert_threshold,
         );
